@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .profile-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+        .profile-header {
+            color: #28a745;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .avatar {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #6c757d;
+            margin: 0 auto 20px;
+        }
+        .info {
+            margin-bottom: 10px;
+        }
+        .card-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .card {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 12px;
+            width: 45%;
+            text-align: center;
+        }
+        .icon {
+            color: #28a745;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h1 class="profile-header">User Profile</h1>
+        <div class="avatar">
+            <img src="{% static 'images/profile.jpg' %}" alt="Profile Picture" width="300" height="300" />
+        </div>
+        <div class="info">
+            <strong>Username:</strong> {{ username }}
+        </div>
+        <div class="info">
+            <strong>Email:</strong> {{ email }}
+        </div>
+        <div class="card-container">
+            <div class="card">
+                <div class="icon">⭐</div>
+                <strong>Quizzes Taken: {{ quizzes_taken }}</strong>
+            </div>
+            <div class="card">
+                <div class="icon">📖</div>
+                <strong>Documents Summarized: {{ documents_summarized }}</strong>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

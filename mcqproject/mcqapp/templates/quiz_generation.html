@@ -1,0 +1,566 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #ec4899;
+            --background: #f8fafc;
+            --text: #1e293b;
+            --gradient-start: #667eea;
+            --gradient-end: #764ba2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            align-items: center;
+        }
+        .left {
+            width: 50%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            height: 70vh; /* Reducing the height of the quiz generator block */
+        }
+        .right {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+            height: 100vh; /* Increasing the height of the image section */
+        }
+        .right img {
+            max-width: 100%;
+            height: 90vh; /* Increasing image height */
+            object-fit: contain;
+        }
+        .form-container {
+            flex-grow: 1;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons a {
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .auth-buttons a:first-child {
+            background: var(--primary);
+            color: white;
+        }
+
+        .auth-buttons a:first-child:hover {
+            background: var(--primary-dark);
+        }
+
+        .hero-section {
+            margin-top: 4rem;
+            text-align: center;
+            padding: 4rem 1rem;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&q=80') center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-section h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .hero-section p {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            flex-grow: 1;
+        }
+
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .form-container h1 {
+            font-size: 1.75rem;
+            color: var(--text);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .custom-file-upload {
+            border: 2px dashed var(--primary);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(79, 70, 229, 0.05);
+        }
+
+        .custom-file-upload:hover {
+            background: rgba(79, 70, 229, 0.1);
+            transform: translateY(-2px);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .mcqs-container {
+            background: transparent;
+            padding: 1rem;
+        }
+
+        .mcqs-container h3 {
+            font-size: 2rem;
+            color: var(--text);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .mcq-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            margin-top: 80px;
+        }
+
+        .mcq-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .mcq-question {
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .mcq-options {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .mcq-options li {
+            padding: 1rem 1.5rem;
+            margin-bottom: 0.75rem;
+            border-radius: 8px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .mcq-options li:before {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid #cbd5e1;
+            border-radius: 50%;
+            margin-right: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .mcq-options li:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .mcq-options li:hover:before {
+            border-color: white;
+        }
+
+        .mcq-answer {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            color: #059669;
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin-top: 1.5rem;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .footer {
+            background: #0f172a;
+            color: white;
+            padding: 6rem 5% 2rem;
+            margin-top: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(
+                90deg,
+                var(--primary) 0%,
+                var(--secondary) 50%,
+                var(--primary) 100%
+            );
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            position: relative;
+        }
+
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0);
+            color: rgb(197, 197, 197);
+            backdrop-filter: blur(10px);
+            margin-top: auto;
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .form-container {
+                position: static;
+                margin-bottom: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-section h2 {
+                font-size: 2rem;
+            }
+
+            .hero-section p {
+                font-size: 1.1rem;
+            }
+
+            .mcq-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="logo">eduQuest</a>
+            <div class="nav-links">
+                <a href="{% url 'quiz_generation' %}">Quiz Generation</a>
+                <a href="{% url 'summarization' %}">Summarization</a>
+                <div class="auth-buttons">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                        <a href="{% url 'user_login' %}">Login</a>
+                        <a href="{% url 'register' %}">Register</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <main class="left">
+            <div class="form-container">
+                <h1>Quiz Generator</h1>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="file">Upload File:</label>
+                        <label for="file" class="custom-file-upload">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Choose a PDF, DOCX, or TXT file</span>
+                        </label>
+                        <input type="file" name="file" id="file" accept=".pdf,.docx,.txt" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="num_questions">Number of Questions</label>
+                        <input type="number" name="num_questions" id="num_questions" required min="1" max="45">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="difficulty">Difficulty Level</label>
+                        <select name="difficulty" id="difficulty" required>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" name="action" value="generate_mcqs">Generate Quiz</button>
+
+                    {% if uploading %}
+                        <p class="mt-4 text-center">Analyzing PDF...</p>
+                        <div class="progress-bar">
+                            <div class="progress-bar-fill" id="progressFill"></div>
+                        </div>
+                    {% endif %}
+                </form>
+            </div>
+
+            {% if mcqs %}
+            <div class="mcqs-container">
+                <h3>Generated Questions</h3>
+                {% for mcq in mcq_list %}
+                <div class="mcq">
+                <div class="mcq-card">
+                    <p class="mcq-question">Question {{ forloop.counter }}: {{ mcq.question }}</p>
+                    <ul class="mcq-options">
+                        {% for option in mcq.options %}
+                        <li>{{ option }}</li>
+                        {% endfor %}
+                    </ul>
+                    <p class="mcq-answer">Correct Answer: {{ mcq.correct_answer }}</p>
+                </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </main>
+        <div class="right">
+            <img src="{% static 'images/quiz_generation.png' %}" alt="Quiz Generator Illustration">
+        </div>
+    </div>
+    <script>
+        if (performance.navigation.type === 2 ||  // Back/forward navigation
+        (window.performance && performance.getEntriesByType('navigation')[0].type === 'back_forward')) {
+        window.location.reload(true);  // Force reload from server
+        }
+
+    // Reset form completely on page load
+        document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('quizForm');
+        form.reset();
+        
+        // Reset file input display
+        const fileLabel = document.querySelector('.custom-file-upload');
+        fileLabel.innerHTML = '<i class="fas fa-cloud-upload-alt"></i><span>Choose a PDF, DOCX, or TXT file</span>';
+        fileLabel.classList.remove('uploaded');
+         });
+        const fileInput = document.getElementById('file');
+        const fileLabel = document.querySelector('.custom-file-upload');
+        
+        fileInput.addEventListener('change', function () {
+            if (fileInput.files.length > 0) {
+                const fileName = fileInput.files[0].name;
+                fileLabel.style.borderColor = '#059669';
+                fileLabel.style.backgroundColor = 'rgba(5, 150, 105, 0.1)';
+                fileLabel.innerHTML = `<span style="color: #059669; font-weight: 600;">✔️ ${fileName} Uploaded</span>`;
+            }
+        });
+
+       
+    </script>
+</body>
+</html>

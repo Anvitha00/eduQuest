@@ -1,0 +1,12 @@
+<!-- mcqapp/templates/mcqapp/admin/dashboard.html -->
+<h1>Admin Dashboard</h1>
+<a href="{% url 'create_quiz' %}">Create Quiz</a>
+<h2>Quizzes</h2>
+<ul>
+    {% for quiz in quizzes %}
+        <li>
+            {{ quiz.title }} - {{ quiz.code }}
+            <a href="{% url 'send_invitations' quiz.id %}">Send Invitations</a>
+        </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,25 @@
+# Virtual environments
+myenv/
+mcqproject/.venv/
+
+# Django specific
+mcqproject/db.sqlite3
+mcqproject/media/
+
+# Python cache
+**/__pycache__/
+
+# Django migrations (ignore all but keep __init__.py)
+mcqproject/mcqapp/migrations/
+!mcqproject/mcqapp/migrations/__init__.py
+mcqproject/mcqapp/templatetags/
+mcqproject/mcqapp/__init__.py
+
+mcqproject/mcqproject
+ 
+# Environment files
+.env
+.env.local
+.env.*.local
+.env.*
+!.env.example

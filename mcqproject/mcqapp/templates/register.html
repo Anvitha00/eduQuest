@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - eduQuest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #ec4899;
+            --background: #f8fafc;
+            --text: #1e293b;
+            --error: #ef4444;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Navbar styles remain the same */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .auth-buttons a {
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .auth-buttons a:first-child {
+            background: var(--primary);
+            color: white;
+        }
+
+        .auth-buttons a:first-child:hover {
+            background: var(--primary-dark);
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 100px auto 50px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            flex-grow: 1;
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1em;
+            background: #f7fafc;
+            transition: border-color 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+        }
+        
+        button[type="submit"] {
+            padding: 15px 30px;
+            background: linear-gradient(to right, #2575fc, #6a11cb);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+        }
+        
+        button[type="submit"]:hover {
+            background: linear-gradient(to right, #1b5fd9, #5a0dbb);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .register-options {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .register-options a {
+            display: inline-block;
+            margin: 10px;
+            padding: 12px 25px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #4a5568;
+            transition: all 0.3s ease;
+        }
+        
+        .register-options a:hover {
+            background: #f7fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .register-options a.google {
+            background: #fff;
+            border: 1px solid #ddd;
+        }
+        
+        .register-options a.google:hover {
+            background: #f9f9f9;
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #4a5568;
+        }
+        
+        .login-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            color: rgb(197, 197, 197);
+            margin-top: 50px;
+        }
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(
+                90deg,
+                var(--primary) 0%,
+                var(--secondary) 50%,
+                var(--primary) 100%
+            );
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .container {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .content-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .content-section p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Error message styling */
+        .error-message {
+            color: var(--error);
+            font-size: 0.85em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Password validation styles */
+        .password-conditions {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .password-conditions h4 {
+            margin-bottom: 10px;
+            color: var(--text);
+            font-size: 1em;
+        }
+
+        .password-conditions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .password-conditions li {
+            margin-bottom: 8px;
+            font-size: 0.85em;
+            color: #666;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .password-conditions li i {
+            margin-right: 10px;
+            font-size: 1em;
+            transition: color 0.3s ease;
+        }
+
+        .password-conditions li.valid {
+            color: var(--success);
+        }
+
+        .password-conditions li.valid i {
+            color: var(--success);
+        }
+
+        .password-conditions li.invalid {
+            color: var(--error);
+        }
+
+        .password-conditions li.invalid i {
+            color: var(--error);
+        }
+
+        /* Message alerts */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+
+        .alert.error {
+            background-color: #fee2e2;
+            color: var(--error);
+            border-left: 4px solid var(--error);
+        }
+
+        .alert.success {
+            background-color: #d1fae5;
+            color: var(--success);
+            border-left: 4px solid var(--success);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 80px 20px 40px;
+                padding: 30px;
+            }
+
+            .nav-links {
+                display: none; /* Consider a mobile menu for smaller screens */
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="logo">eduQuest</a>
+            <div class="nav-links">
+                <a href="{% url 'quiz_generation' %}">Generate Quiz</a>
+                <a href="{% url 'summarization' %}">Summarization</a>
+                <div class="auth-buttons">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                        <a href="{% url 'user_login' %}">Login</a>
+                        <a href="{% url 'register' %}">Register</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Join eduQuest Today!</h1>
+        <div class="content-section">
+            <p>Enhance your learning with eduQuest.Register now!</p>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" id="registerForm">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_username">Username</label>
+                <input type="text" name="username" id="id_username" required>
+                <div class="error-message" id="username-error"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_email">Email</label>
+                <input type="email" name="email" id="id_email" required>
+                <div class="error-message" id="email-error"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_password1">Password</label>
+                <input type="password" name="password1" id="id_password1" required>
+                <div class="error-message" id="password1-error"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="id_password2">Confirm Password</label>
+                <input type="password" name="password2" id="id_password2" required>
+                <div class="error-message" id="password2-error"></div>
+            </div>
+
+            <button type="submit" class="btn-primary">Register</button>
+        </form>
+
+        <!-- <div class="register-options">
+            <a href="#" class="google"><i class="fab fa-google"></i> Register with Google</a>
+        </div> -->
+        <div class="login-link">
+            <p>Already have an account? <a href="{% url 'user_login' %}">Login here</a></p>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>© 2025 MCQ Generator. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Enhanced password validation with real-time feedback
+        const passwordInput = document.getElementById('id_password1');
+        const confirmPasswordInput = document.getElementById('id_password2');
+        const form = document.getElementById('registerForm');
+        
+        // Password condition elements
+        const conditions = {
+            length: document.getElementById('condition-length'),
+            capital: document.getElementById('condition-capital'),
+            numeric: document.getElementById('condition-numeric'),
+            special: document.getElementById('condition-special'),
+            match: document.getElementById('condition-match')
+        };
+
+        // Error message elements
+        const errorMessages = {
+            username: document.getElementById('username-error'),
+            email: document.getElementById('email-error'),
+            password1: document.getElementById('password1-error'),
+            password2: document.getElementById('password2-error')
+        };
+
+        // Event listeners for real-time validation
+        passwordInput.addEventListener('input', validatePassword);
+        confirmPasswordInput.addEventListener('input', validatePassword);
+        
+        // Form submission handler
+        form.addEventListener('submit', function(event) {
+            if (!validateForm()) {
+                event.preventDefault();
+            }
+        });
+
+        function validatePassword() {
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            // Validate password length
+            toggleCondition(conditions.length, password.length >= 8, 'At least 8 characters');
+            
+            // Validate capital letter
+            toggleCondition(conditions.capital, /[A-Z]/.test(password), 'At least one capital letter');
+            
+            // Validate numeric character
+            toggleCondition(conditions.numeric, /\d/.test(password), 'At least one number');
+            
+            // Validate special character
+            toggleCondition(conditions.special, /[!@#$%^&*(),.?":{}|<>]/.test(password), 'At least one special character');
+            
+            // Validate password match
+            toggleCondition(conditions.match, password === confirmPassword && password !== '', 'Passwords match');
+            
+            // Show/hide error message for password confirmation
+            if (confirmPassword && password !== confirmPassword) {
+                errorMessages.password2.textContent = 'Passwords do not match';
+                errorMessages.password2.style.display = 'block';
+            } else {
+                errorMessages.password2.style.display = 'none';
+            }
+        }
+
+        function toggleCondition(element, isValid, text) {
+            if (isValid) {
+                element.classList.add('valid');
+                element.classList.remove('invalid');
+                element.innerHTML = `<i class="fas fa-check"></i> ${text}`;
+            } else {
+                element.classList.add('invalid');
+                element.classList.remove('valid');
+                element.innerHTML = `<i class="fas fa-times"></i> ${text}`;
+            }
+        }
+
+        function validateForm() {
+            let isValid = true;
+            
+            // Validate username
+            const username = document.getElementById('id_username').value.trim();
+            if (username.length < 4) {
+                errorMessages.username.textContent = 'Username must be at least 4 characters';
+                errorMessages.username.style.display = 'block';
+                isValid = false;
+            } else {
+                errorMessages.username.style.display = 'none';
+            }
+            
+            // Validate email
+            const email = document.getElementById('id_email').value.trim();
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                errorMessages.email.textContent = 'Please enter a valid email address';
+                errorMessages.email.style.display = 'block';
+                isValid = false;
+            } else {
+                errorMessages.email.style.display = 'none';
+            }
+            
+            // Validate password
+            const password = passwordInput.value;
+            if (password.length < 8) {
+                errorMessages.password1.textContent = 'Password must be at least 8 characters';
+                errorMessages.password1.style.display = 'block';
+                isValid = false;
+            } else {
+                errorMessages.password1.style.display = 'none';
+            }
+            
+            // Validate password match
+            if (password !== confirmPasswordInput.value) {
+                errorMessages.password2.textContent = 'Passwords do not match';
+                errorMessages.password2.style.display = 'block';
+                isValid = false;
+            } else {
+                errorMessages.password2.style.display = 'none';
+            }
+            
+            return isValid;
+        }
+
+        // Initialize validation on page load
+        validatePassword();
+    </script>
+</body>
+</html>

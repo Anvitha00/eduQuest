@@ -1,0 +1,187 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>eduQuest - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #8b5cf6;
+            --bg-light: #f9fafb;
+            --bg-dark: #1e293b;
+            --text-dark: #111827;
+            --text-light: #6b7280;
+            --danger-color: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-size: 1rem;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .logout-btn {
+            background-color: var(--danger-color);
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .logout-btn:hover {
+            background-color: #dc2626;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5rem 5%;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 500px;
+            margin-bottom: 2rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-buttons a {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+        }
+
+        .summarization-btn {
+            background-color: var(--primary-color);
+        }
+
+        .quiz-btn {
+            background-color: var(--secondary-color);
+        }
+
+        .summarization-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        .quiz-btn:hover {
+            background-color: #7c3aed;
+        }
+
+        .hero-image {
+            background-color: #e5e7eb;
+            width: 500px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+        }
+
+        .hero-image span {
+            color: var(--text-light);
+            font-size: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-image {
+                margin-top: 2rem;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="{% url 'home' %}" class="logo">eduQuest</a>
+        <div class="nav-links">
+            <a href="{% url 'summarization' %}">Summarization</a>
+            <a href="{% url 'quiz_generation' %}">Quiz Generation</a>
+            <a href="{% url 'profile' %}">Profile</a>
+        </div>
+        <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Welcome to eduQuest</h1>
+            <p>Empower your learning with EduQuest — where faculty craft syllabus-aligned quizzes for classwork, and students elevate their self-prep with interactive practice. Your all-in-one learning companion!</p>
+            <div class="action-buttons">
+                <a href="{% url 'summarization' %}" class="summarization-btn">Smart Summarization</a>
+                <a href="{% url 'quiz_generation' %}" class="quiz-btn">Quiz Generation</a>
+            </div>
+        </div>
+        <div class="image-container" style="width: 500px; height: 400px;">
+            <img src="{% static 'images/eduQuest1.jpg' %}" alt="eduQuest" style="width: 100%; height: 100%;">
+          </div>
+          
+    </section>
+</body>
+</html>

@@ -1,0 +1,200 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Summarizer - eduQuest</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --secondary: #ec4899;
+      --background: #f8fafc;
+      --text: #1e293b;
+      --accent: #6366f1;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body, html {
+      height: 100%;
+      background-color: var(--background);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 1rem 5%;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .nav-links a {
+      margin-left: 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .container-wrapper {
+      display: flex;
+      flex-grow: 1;
+      padding: 5% 8%;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .container {
+      max-width: 600px;
+      background-color: white;
+      padding: 3rem;
+      border-radius: 24px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: var(--primary);
+      font-size: 2.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    button {
+      padding: 1rem 2rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+    }
+
+    .upload-area {
+      border: 2px dashed var(--primary);
+      padding: 3rem;
+      text-align: center;
+      border-radius: 15px;
+      margin-bottom: 1rem;
+      background: rgba(79, 70, 229, 0.05);
+      cursor: pointer;
+    }
+
+    .upload-icon {
+      font-size: 3rem;
+      color: var(--primary);
+    }
+
+    /* Image Section */
+    .image-section {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .image-section img {
+      max-width: 500px;
+      width: 100%;
+      height: auto;
+    }
+
+    /* Chat Interface */
+    .chat-messages {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: var(--background);
+      border-radius: 12px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .message {
+      margin-bottom: 1rem;
+    }
+
+    .question-form input {
+      flex: 1;
+      padding: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="{% url 'home' %}" class="logo">eduQuest</a>
+    <div class="nav-links">
+      <a href="{% url 'quiz_generation' %}">Quiz Generation</a>
+      <a href="{% url 'summarization' %}">Summarization</a>
+    </div>
+  </nav>
+
+  <div class="container-wrapper">
+    <div class="container">
+      <h1>Summarizer</h1>
+      {% if error %}
+        <p class="error" style="color: #e53e3e;">{{ error }}</p>
+      {% endif %}
+      {% if not text %}
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="upload-area">
+          <i class="fas fa-file-upload upload-icon"></i>
+          <p>Drag & drop your PDF file here or click to upload</p>
+          <input type="file" name="pdf_file" accept=".pdf,.docx,.txt" required />
+        </div>
+        <button type="submit">Upload</button>
+      </form>
+      {% else %}
+      <div class="chat-messages">
+        <div class="message"><strong>You:</strong> {{ question }}</div>
+        <div class="message"><strong>AI:</strong> {{ response }}</div>
+      </div>
+
+      <form method="post" action="{% url 'ask_question' %}" class="question-form">
+        {% csrf_token %}
+        <input type="text" name="question" placeholder="Ask a question about your PDF..." required />
+        <button type="submit">Ask</button>
+      </form>
+
+      <form method="post" action="{% url 'start_new_chat' %}">
+        {% csrf_token %}
+        <button type="submit">Start New Chat</button>
+      </form>
+      {% endif %}
+    </div>
+    <div class="image-section">
+      <img src="{% static 'images/summarizer.jpg' %}" alt="Summarization Illustration" />
+    </div>
+  </div>
+</body>
+</html>
